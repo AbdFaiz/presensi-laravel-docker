@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\MataKuliah;
+use App\Models\ProgramStudi;
 use Illuminate\Database\Seeder;
 
 class MataKuliahSeeder extends Seeder
@@ -17,7 +18,7 @@ class MataKuliahSeeder extends Seeder
         ];
 
         foreach ($data as $item) {
-            $prodi = \App\Models\ProgramStudi::where('kode', $item['program_studi_kode'])->first();
+            $prodi = ProgramStudi::where('kode', $item['program_studi_kode'])->first();
             MataKuliah::create([
                 'kode_mk' => $item['kode_mk'],
                 'nama_mk' => $item['nama_mk'],

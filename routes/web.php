@@ -16,6 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('dashboard', function () {
         $user = auth()->user();
+
         return match ($user->role) {
             'admin' => view('dashboards.admin'),
             'dosen' => view('dashboards.dosen'),

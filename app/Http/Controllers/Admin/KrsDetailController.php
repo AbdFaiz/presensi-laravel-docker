@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\KrsDetail;
-use Illuminate\Http\Request;
 
 class KrsDetailController extends Controller
 {
     public function index()
     {
         $krs = KrsDetail::with(['mahasiswa', 'kelasKuliah.mataKuliah', 'kelasKuliah.dosen'])->get();
+
         return view('admin.krs.index', compact('krs'));
     }
 

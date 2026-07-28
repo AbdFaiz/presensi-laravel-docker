@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\JadwalKuliah;
 use App\Models\KrsDetail;
 use App\Models\Presensi;
-use Illuminate\Http\Request;
 
 class PresensiController extends Controller
 {

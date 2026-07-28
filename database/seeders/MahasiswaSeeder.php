@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Mahasiswa;
+use App\Models\ProgramStudi;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -59,7 +60,7 @@ class MahasiswaSeeder extends Seeder
         ];
 
         foreach ($mahasiswaData as $data) {
-            $prodi = \App\Models\ProgramStudi::where('kode', $data['program_studi_kode'])->first();
+            $prodi = ProgramStudi::where('kode', $data['program_studi_kode'])->first();
 
             $user = User::create([
                 'name' => $data['name'],

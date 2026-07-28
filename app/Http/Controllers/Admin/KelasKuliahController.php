@@ -13,6 +13,7 @@ class KelasKuliahController extends Controller
     public function index()
     {
         $kelases = KelasKuliah::with(['mataKuliah', 'dosen'])->get();
+
         return view('admin.kelas.index', compact('kelases'));
     }
 
@@ -20,6 +21,7 @@ class KelasKuliahController extends Controller
     {
         $matkuls = MataKuliah::all();
         $dosens = Dosen::all();
+
         return view('admin.kelas.create', compact('matkuls', 'dosens'));
     }
 
@@ -41,6 +43,7 @@ class KelasKuliahController extends Controller
     {
         $matkuls = MataKuliah::all();
         $dosens = Dosen::all();
+
         return view('admin.kelas.edit', ['kelas' => $kelasKuliah, 'matkuls' => $matkuls, 'dosens' => $dosens]);
     }
 
@@ -61,6 +64,7 @@ class KelasKuliahController extends Controller
     public function destroy(KelasKuliah $kelasKuliah)
     {
         $kelasKuliah->delete();
+
         return redirect()->route('admin.kelas.index')->with('success', 'Kelas berhasil dihapus.');
     }
 }

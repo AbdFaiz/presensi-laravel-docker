@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Mahasiswa;
 use App\Http\Controllers\Controller;
 use App\Models\KelasKuliah;
 use App\Models\KrsDetail;
-use Illuminate\Http\Request;
 
 class KrsController extends Controller
 {
@@ -46,6 +45,7 @@ class KrsController extends Controller
 
         if ($krsDetail->status === 'pending') {
             $krsDetail->update(['status' => 'dibatalkan']);
+
             return redirect()->route('mhs.krs.index')->with('success', 'KRS berhasil dibatalkan.');
         }
 

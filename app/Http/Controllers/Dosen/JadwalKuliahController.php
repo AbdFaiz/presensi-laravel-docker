@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Dosen;
 
 use App\Http\Controllers\Controller;
 use App\Models\JadwalKuliah;
-use App\Models\KelasKuliah;
 use Illuminate\Http\Request;
 
 class JadwalKuliahController extends Controller
@@ -22,6 +21,7 @@ class JadwalKuliahController extends Controller
     {
         $dosen = auth()->user()->dosenProfile;
         $kelas = $dosen->kelasKuliahs;
+
         return view('dosen.jadwal.create', compact('kelas'));
     }
 
@@ -47,6 +47,7 @@ class JadwalKuliahController extends Controller
         $jadwalKuliah->update(['status_sesi' => $newStatus]);
 
         $msg = $newStatus === 'ditutup' ? 'Sesi presensi berhasil ditutup.' : 'Sesi presensi berhasil dibuka.';
+
         return redirect()->route('dosen.jadwal.index')->with('success', $msg);
     }
 }
