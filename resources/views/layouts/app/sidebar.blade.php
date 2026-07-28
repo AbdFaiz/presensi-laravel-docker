@@ -16,18 +16,45 @@
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
-            </flux:sidebar.nav>
 
-            <flux:spacer />
+                @if(auth()->user()->role === 'admin')
+                    <flux:sidebar.group :heading="__('Admin')" class="grid">
+                        <flux:sidebar.item icon="users" :href="route('admin.users.index')" :current="request()->routeIs('admin.users.*')" wire:navigate>
+                            {{ __('Kelola Users') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="academic-cap" :href="route('admin.prodi.index')" :current="request()->routeIs('admin.prodi.*')" wire:navigate>
+                            {{ __('Program Studi') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="book-open" :href="route('admin.mk.index')" :current="request()->routeIs('admin.mk.*')" wire:navigate>
+                            {{ __('Mata Kuliah') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar-item icon="user-group" :href="route('admin.kelas.index')" :current="request()->routeIs('admin.kelas.*')" wire:navigate>
+                            {{ __('Kelas') }}
+                        </flux:sidebar-item>
+                        <flux:sidebar-item icon="clipboard-document-check" :href="route('admin.krs.index')" :current="request()->routeIs('admin.krs.*')" wire:navigate>
+                            {{ __('KRS') }}
+                        </flux:sidebar-item>
+                    </flux:sidebar-group>
+                @endif
 
-            <flux:sidebar.nav>
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
+                @if(auth()->user()->role === 'dosen')
+                    <flux:sidebar.group :heading="__('Dosen')" class="grid">
+                        <flux:sidebar.item icon="calendar" :href="route('dosen.jadwal.index')" :current="request()->routeIs('dosen.jadwal.*')" wire:navigate>
+                            {{ __('Jadwal & Pertemuan') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar-group>
+                @endif
 
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                </flux:sidebar.item>
+                @if(auth()->user()->role === 'mahasiswa')
+                    <flux:sidebar.group :heading="__('Mahasiswa')" class="grid">
+                        <flux:sidebar-item icon="academic-cap" :href="route('mhs.krs.index')" :current="request()->routeIs('mhs.krs.*')" wire:navigate>
+                            {{ __('Ambil Kelas (KRS)') }}
+                        </flux:sidebar-item>
+                        <flux:sidebar-item icon="check-circle" :href="route('mhs.presensi.index')" :current="request()->routeIs('mhs.presensi.*')" wire:navigate>
+                            {{ __('Presensi') }}
+                        </flux:sidebar-item>
+                    </flux:sidebar-group>
+                @endif
             </flux:sidebar.nav>
 
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
