@@ -23,15 +23,31 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
 
+    --color-emerald-50: oklch(0.95 0.04 160);
+    --color-emerald-100: oklch(0.90 0.07 160);
+    --color-emerald-200: oklch(0.82 0.10 160);
+    --color-emerald-300: oklch(0.72 0.13 160);
+    --color-emerald-400: oklch(0.62 0.15 160);
+    --color-emerald-500: oklch(0.55 0.14 160);
+    --color-emerald-600: oklch(0.48 0.13 160);
+    --color-emerald-700: oklch(0.40 0.12 160);
+    --color-emerald-800: oklch(0.32 0.10 160);
+    --color-emerald-900: oklch(0.24 0.08 160);
+    --color-emerald-950: oklch(0.16 0.06 160);
+
     --color-accent: var(--color-emerald-600);
-    --color-accent-content: var(--color-emerald-600);
+    --color-accent-content: var(--color-emerald-700);
     --color-accent-foreground: var(--color-white);
+
+    --color-teal: oklch(0.55 0.12 190);
+    --color-amber: oklch(0.65 0.14 85);
+    --color-sky: oklch(0.55 0.12 240);
 }
 
 @layer theme {
     .dark {
         --color-accent: var(--color-emerald-400);
-        --color-accent-content: var(--color-emerald-400);
+        --color-accent-content: var(--color-emerald-300);
         --color-accent-foreground: var(--color-emerald-950);
     }
 }
