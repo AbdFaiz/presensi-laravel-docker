@@ -15,11 +15,18 @@ class KrsController extends Controller
             ->with(['kelasKuliah.mataKuliah', 'kelasKuliah.dosen'])
             ->get();
 
+        return view('mahasiswa.krs.index', compact('krsSaya'));
+    }
+
+    public function daftar()
+    {
+        $mhs = auth()->user()->mahasiswaProfile;
+        $diambil = KrsDetail::where('mahasiswa_id', $mhs->id)->pluck('kelas_kuliah_id');
         $kelasTersedia = KelasKuliah::with(['mataKuliah', 'dosen'])
-            ->whereNotIn('id', $krsSaya->pluck('kelas_kuliah_id'))
+            ->whereNotIn('id', $diambil)
             ->get();
 
-        return view('mahasiswa.krs.index', compact('krsSaya', 'kelasTersedia'));
+        return view('mahasiswa.krs.daftar', compact('kelasTersedia'));
     }
 
     public function ambil(KelasKuliah $kelasKuliah)

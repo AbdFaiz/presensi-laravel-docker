@@ -1,49 +1,49 @@
 <x-layouts::app :title="__('Tambah / Edit Mata Kuliah')">
-    <div class="p-6 lg:p-8 max-w-3xl mx-auto space-y-6">
-        <div class="flex items-center justify-between">
+    <div class="p-4 sm:p-6 lg:p-8 max-w-3xl mx-auto space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-bold text-zinc-900 dark:text-white">{{ isset($mk) ? 'Edit Mata Kuliah' : 'Tambah Mata Kuliah' }}</h1>
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{{ isset($mk) ? 'Edit Mata Kuliah' : 'Tambah Mata Kuliah' }}</h1>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ isset($mk) ? 'Ubah data mata kuliah' : 'Buat mata kuliah baru' }}</p>
             </div>
             <a href="{{ route('admin.mk.index') }}" wire:navigate>
                 <flux:button variant="subtle" icon="arrow-left">Kembali</flux:button>
             </a>
         </div>
 
-        <div class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-            <form method="POST" action="{{ isset($mk) ? route('admin.mk.update', $mk) : route('admin.mk.store') }}" class="space-y-5">
-                @csrf
-                @isset($mk) @method('PUT') @endisset
+        <div class="card-unas">
+            <div class="px-8 py-6">
+                <form method="POST" action="{{ isset($mk) ? route('admin.mk.update', $mk) : route('admin.mk.store') }}" class="space-y-5">
+                    @csrf
+                    @isset($mk) @method('PUT') @endisset
 
-                @php $mkData = $mk ?? null; @endphp
-                <flux:input name="kode_mk" label="Kode Mata Kuliah" :value="old('kode_mk', $mkData->kode_mk ?? '')" required placeholder="TI201" />
-                <flux:input name="nama_mk" label="Nama Mata Kuliah" :value="old('nama_mk', $mkData->nama_mk ?? '')" required />
-                <div class="grid gap-5 sm:grid-cols-2">
-                    <flux:input name="sks" label="SKS" type="number" :value="old('sks', $mkData->sks ?? 3)" required min="1" max="6" />
-                    <flux:input name="semester" label="Semester" type="number" :value="old('semester', $mkData->semester ?? 1)" required min="1" max="8" />
-                </div>
-                <flux:select name="program_studi_id" label="Program Studi" required>
-                    @foreach($prodis as $prodi)
-                        <option value="{{ $prodi->id }}" {{ (old('program_studi_id', $mkData->program_studi_id ?? '') == $prodi->id) ? 'selected' : '' }}>
-                            {{ $prodi->kode }} - {{ $prodi->nama }}
-                        </option>
-                    @endforeach
-                </flux:select>
-
-                @if($errors->any())
-                    <div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-                        <ul class="list-disc pl-4 space-y-1">
-                            @foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach
-                        </ul>
+                    @php $m = $mk ?? null; @endphp
+                    <div class="grid gap-5 sm:grid-cols-2">
+                        <flux:input name="kode_mk" label="Kode MK" :value="old('kode_mk', $m->kode_mk ?? '')" required placeholder="TI101" />
+                        <flux:input name="nama_mk" label="Nama Mata Kuliah" :value="old('nama_mk', $m->nama_mk ?? '')" required placeholder="Algoritma Pemrograman" />
                     </div>
-                @endif
+                    <div class="grid gap-5 sm:grid-cols-3">
+                        <flux:input name="sks" label="SKS" type="number" min="1" max="6" :value="old('sks', $m->sks ?? '')" required />
+                        <flux:input name="semester" label="Semester" type="number" min="1" max="14" :value="old('semester', $m->semester ?? '')" required />
+                        <flux:select name="program_studi_id" label="Program Studi" required>
+                            @foreach($prodis as $prodi)
+                                <option value="{{ $prodi->id }}" {{ (old('program_studi_id', $m->program_studi_id ?? '') == $prodi->id) ? 'selected' : '' }}>{{ $prodi->nama }} ({{ $prodi->kode }})</option>
+                            @endforeach
+                        </flux:select>
+                    </div>
 
-                <div class="flex items-center gap-3 pt-2">
-                    <flux:button type="submit" icon="check" class="!bg-emerald-600 !text-white hover:!bg-emerald-700">{{ isset($mk) ? 'Update' : 'Simpan' }}</flux:button>
-                    <a href="{{ route('admin.mk.index') }}" wire:navigate>
-                        <flux:button variant="subtle" type="button">Batal</flux:button>
-                    </a>
-                </div>
-            </form>
+                    @if($errors->any())
+                        <div class="alert-error">
+                            <ul class="list-disc pl-4 space-y-1">
+                                @foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="pt-2">
+                        <flux:button type="submit" class="btn-primary">{{ isset($mk) ? 'Update' : 'Simpan' }}</flux:button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </x-layouts::app>

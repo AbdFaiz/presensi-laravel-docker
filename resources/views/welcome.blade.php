@@ -12,7 +12,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-screen bg-zinc-50 dark:bg-zinc-950 antialiased">
+<body class="min-h-screen bg-slate-50 dark:bg-slate-950 antialiased">
     <div class="relative min-h-screen flex flex-col">
         @if (Route::has('login'))
             <nav class="flex items-center justify-end gap-3 px-8 py-5">
@@ -33,19 +33,19 @@
             <div class="flex flex-col items-center text-center max-w-3xl">
                 <div class="mb-8">
                     <div
-                        class="flex items-center justify-center w-20 h-20 rounded-2xl bg-emerald-600 shadow-lg shadow-emerald-200/50 dark:shadow-emerald-900/30">
+                        class="flex items-center justify-center w-20 h-20 rounded-lg bg-blue-600">
                         <x-app-logo-icon class="w-12 h-12 fill-white" />
                     </div>
                 </div>
 
-                <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-zinc-900 dark:text-white">
+                <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-slate-900 dark:text-white">
                     Sihadir
                 </h1>
-                <p class="mt-3 text-base font-medium text-emerald-600 dark:text-emerald-400">
+                <p class="mt-3 text-base font-medium text-blue-600 dark:text-blue-400">
                     Sistem Presensi Mahasiswa
                 </p>
 
-                <p class="mt-6 text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">
+                <p class="mt-6 text-lg text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed">
                     Platform presensi perkuliahan terintegrasi. Catat kehadiran, kelola KRS, dan pantau aktivitas
                     akademik secara real-time.
                 </p>
@@ -53,12 +53,12 @@
                 <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
                     @auth
                         <flux:button href="{{ route('dashboard') }}" size="base" icon-trailing="arrow-right"
-                            class="!bg-emerald-600 !text-white hover:!bg-emerald-700 shadow-lg shadow-emerald-200/50 dark:shadow-emerald-900/30">
+                            class="!bg-blue-600 !text-white hover:!bg-blue-700">
                             Buka Dashboard
                         </flux:button>
                     @else
                         <flux:button href="{{ route('login') }}" size="base" icon-trailing="arrow-right"
-                            class="!bg-emerald-600 !text-white hover:!bg-emerald-700 shadow-lg shadow-emerald-200/50 dark:shadow-emerald-900/30">
+                            class="!bg-blue-600 !text-white hover:!bg-blue-700">
                             Mulai Presensi
                         </flux:button>
                         @if (Route::has('register'))
@@ -72,41 +72,41 @@
 
             <div class="mt-24 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-4xl">
                 <div
-                    class="group flex flex-col items-center text-center p-8 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-emerald-200 dark:hover:border-emerald-800 transition-all duration-200">
+                    class="group flex flex-col items-center text-center p-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-200">
                     <div
-                        class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <flux:icon.clipboard-document-check class="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                        class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-slate-800/50 flex items-center justify-center mb-4">
+                        <flux:icon.clipboard-document-check class="w-6 h-6 text-blue-600 dark:text-blue-400" />
                     </div>
-                    <h3 class="font-semibold text-zinc-900 dark:text-white">Presensi</h3>
-                    <p class="mt-1.5 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Isi kehadiran perkuliahan
+                    <h3 class="font-semibold text-slate-900 dark:text-white">Presensi</h3>
+                    <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Isi kehadiran perkuliahan
                         dengan cepat dan mudah</p>
                 </div>
 
                 <div
-                    class="group flex flex-col items-center text-center p-8 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-emerald-200 dark:hover:border-emerald-800 transition-all duration-200">
+                    class="group flex flex-col items-center text-center p-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-200">
                     <div
-                        class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <flux:icon.book-open-text class="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                        class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-slate-800/50 flex items-center justify-center mb-4">
+                        <flux:icon.book-open-text class="w-6 h-6 text-blue-600 dark:text-blue-400" />
                     </div>
-                    <h3 class="font-semibold text-zinc-900 dark:text-white">KRS</h3>
-                    <p class="mt-1.5 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Kelola rencana studi
+                    <h3 class="font-semibold text-slate-900 dark:text-white">KRS</h3>
+                    <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Kelola rencana studi
                         setiap semester secara mandiri</p>
                 </div>
 
                 <div
-                    class="group flex flex-col items-center text-center p-8 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-emerald-200 dark:hover:border-emerald-800 transition-all duration-200">
+                    class="group flex flex-col items-center text-center p-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-200">
                     <div
-                        class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <flux:icon.chart-bar class="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                        class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-slate-800/50 flex items-center justify-center mb-4">
+                        <flux:icon.chart-bar class="w-6 h-6 text-blue-600 dark:text-blue-400" />
                     </div>
-                    <h3 class="font-semibold text-zinc-900 dark:text-white">Laporan</h3>
-                    <p class="mt-1.5 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Pantau rekap kehadiran
+                    <h3 class="font-semibold text-slate-900 dark:text-white">Laporan</h3>
+                    <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Pantau rekap kehadiran
                         secara real-time</p>
                 </div>
             </div>
         </main>
 
-        <footer class="py-8 text-center text-sm text-zinc-400 dark:text-zinc-600">
+        <footer class="py-8 text-center text-sm text-slate-400 dark:text-slate-600">
             &copy; {{ date('Y') }} Sihadir. All rights reserved.
         </footer>
     </div>

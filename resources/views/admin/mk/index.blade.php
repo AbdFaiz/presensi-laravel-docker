@@ -1,56 +1,56 @@
 <x-layouts::app :title="__('Mata Kuliah')">
-    <div class="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
-        <div class="flex items-center justify-between">
+    <div class="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-bold text-zinc-900 dark:text-white">Mata Kuliah</h1>
-                <p class="mt-1 text-sm text-zinc-500">Kelola data mata kuliah per program studi</p>
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Mata Kuliah</h1>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Kelola data mata kuliah per program studi</p>
             </div>
             <a href="{{ route('admin.mk.create') }}" wire:navigate>
-                <flux:button icon="plus" class="!bg-emerald-600 !text-white hover:!bg-emerald-700 shadow-sm">Tambah Mata Kuliah</flux:button>
+                <flux:button icon="plus" class="btn-accent">Tambah Mata Kuliah</flux:button>
             </a>
         </div>
 
         @if(session('success'))
-            <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-400">{{ session('success') }}</div>
+            <div class="alert-success">{{ session('success') }}</div>
         @endif
 
-        <div class="rounded-2xl border border-zinc-200/60 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900 overflow-hidden">
+        <div class="card-unas overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+                <table class="table-unas">
                     <thead>
-                        <tr class="border-b border-zinc-100 dark:border-zinc-800">
-                            <th class="px-5 py-4 text-left font-medium text-zinc-500">Kode</th>
-                            <th class="px-5 py-4 text-left font-medium text-zinc-500">Nama Mata Kuliah</th>
-                            <th class="px-5 py-4 text-center font-medium text-zinc-500 w-16">SKS</th>
-                            <th class="px-5 py-4 text-center font-medium text-zinc-500 w-20">Semester</th>
-                            <th class="px-5 py-4 text-left font-medium text-zinc-500 w-24">Prodi</th>
-                            <th class="px-5 py-4 text-right font-medium text-zinc-500 w-40">Aksi</th>
+                        <tr>
+                            <th>Kode</th>
+                            <th>Nama Mata Kuliah</th>
+                            <th class="text-center">SKS</th>
+                            <th class="text-center">Semester</th>
+                            <th>Prodi</th>
+                            <th class="text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-50 dark:divide-zinc-800">
+                    <tbody>
                         @forelse($matkuls as $mk)
-                            <tr class="hover:bg-emerald-50/30 dark:hover:bg-emerald-900/5 transition-colors">
-                                <td class="px-5 py-4 font-mono font-bold text-emerald-600 dark:text-emerald-400">{{ $mk->kode_mk }}</td>
-                                <td class="px-5 py-4 font-medium text-zinc-900 dark:text-white">{{ $mk->nama_mk }}</td>
-                                <td class="px-5 py-4 text-center">
-                                    <span class="inline-flex items-center justify-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium dark:bg-zinc-800">{{ $mk->sks }}</span>
+                            <tr>
+                                <td class="px-3 py-3 sm:px-5 sm:py-4"><span class="inline-flex font-mono font-bold text-slate-700 bg-slate-100 rounded-md px-2 py-1 text-xs dark:bg-slate-800 dark:text-slate-300">{{ $mk->kode_mk }}</span></td>
+                                <td class="px-3 py-3 sm:px-5 sm:py-4 font-medium text-slate-900 dark:text-white">{{ $mk->nama_mk }}</td>
+                                <td class="px-3 py-3 sm:px-5 sm:py-4 text-center">
+                                    <span class="inline-flex items-center justify-center rounded-full bg-amber-50 text-amber-700 px-2.5 py-0.5 text-xs font-semibold dark:bg-amber-900/30 dark:text-amber-400">{{ $mk->sks }}</span>
                                 </td>
-                                <td class="px-5 py-4 text-center text-zinc-600">{{ $mk->semester }}</td>
-                                <td class="px-5 py-4"><span class="text-xs font-medium text-zinc-500">{{ $mk->programStudi->kode ?? '-' }}</span></td>
-                                <td class="px-5 py-4 text-right">
+                                <td class="px-3 py-3 sm:px-5 sm:py-4 text-center text-xs font-semibold text-slate-600 dark:text-slate-400">{{ $mk->semester }}</td>
+                                <td class="px-3 py-3 sm:px-5 sm:py-4"><span class="inline-flex items-center rounded-md bg-slate-100 text-slate-700 px-2 py-0.5 text-xs font-medium dark:bg-slate-800 dark:text-slate-300">{{ $mk->programStudi->kode ?? '-' }}</span></td>
+                                <td class="px-3 py-3 sm:px-5 sm:py-4 text-right">
                                     <div class="flex items-center justify-end gap-2">
                                         <a href="{{ route('admin.mk.edit', $mk) }}" wire:navigate>
                                             <flux:button size="xs" variant="subtle" icon="pencil-square">Edit</flux:button>
                                         </a>
                                         <form method="POST" action="{{ route('admin.mk.destroy', $mk) }}" onsubmit="return confirm('Yakin hapus?')" class="inline">
                                             @csrf @method('DELETE')
-                                            <flux:button size="xs" variant="subtle" icon="trash" type="submit" class="text-red-500 hover:!text-red-600 hover:!bg-red-50 dark:hover:!bg-red-900/20">Hapus</flux:button>
+                                            <flux:button size="xs" variant="subtle" icon="trash" type="submit" class="text-rose-500 hover:!bg-rose-50 dark:hover:!bg-rose-950/30">Hapus</flux:button>
                                         </form>
                                     </div>
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="6" class="px-5 py-12 text-center text-sm text-zinc-400">Belum ada data</td></tr>
+                            <tr><td colspan="6" class="px-5 py-12 text-center text-sm text-slate-400 dark:text-slate-500">Belum ada data</td></tr>
                         @endforelse
                     </tbody>
                 </table>

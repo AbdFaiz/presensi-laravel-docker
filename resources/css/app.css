@@ -11,44 +11,16 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-    --color-zinc-50: #fafafa;
-    --color-zinc-100: #f5f5f5;
-    --color-zinc-200: #e5e5e5;
-    --color-zinc-300: #d4d4d4;
-    --color-zinc-400: #a3a3a3;
-    --color-zinc-500: #737373;
-    --color-zinc-600: #525252;
-    --color-zinc-700: #404040;
-    --color-zinc-800: #262626;
-    --color-zinc-900: #171717;
-    --color-zinc-950: #0a0a0a;
-
-    --color-emerald-50: oklch(0.95 0.04 160);
-    --color-emerald-100: oklch(0.90 0.07 160);
-    --color-emerald-200: oklch(0.82 0.10 160);
-    --color-emerald-300: oklch(0.72 0.13 160);
-    --color-emerald-400: oklch(0.62 0.15 160);
-    --color-emerald-500: oklch(0.55 0.14 160);
-    --color-emerald-600: oklch(0.48 0.13 160);
-    --color-emerald-700: oklch(0.40 0.12 160);
-    --color-emerald-800: oklch(0.32 0.10 160);
-    --color-emerald-900: oklch(0.24 0.08 160);
-    --color-emerald-950: oklch(0.16 0.06 160);
-
-    --color-accent: var(--color-emerald-600);
-    --color-accent-content: var(--color-emerald-700);
+    --color-accent: var(--color-blue-600);
+    --color-accent-content: var(--color-blue-700);
     --color-accent-foreground: var(--color-white);
-
-    --color-teal: oklch(0.55 0.12 190);
-    --color-amber: oklch(0.65 0.14 85);
-    --color-sky: oklch(0.55 0.12 240);
 }
 
 @layer theme {
     .dark {
-        --color-accent: var(--color-emerald-400);
-        --color-accent-content: var(--color-emerald-300);
-        --color-accent-foreground: var(--color-emerald-950);
+        --color-accent: var(--color-blue-500);
+        --color-accent-content: var(--color-blue-400);
+        --color-accent-foreground: var(--color-blue-950);
     }
 }
 
@@ -59,7 +31,19 @@
     ::before,
     ::backdrop,
     ::file-selector-button {
-        border-color: var(--color-gray-200, currentColor);
+        border-color: var(--color-slate-200, currentColor);
+    }
+
+    body {
+        @apply bg-slate-50 text-slate-900 antialiased;
+    }
+
+    .dark body {
+        @apply bg-slate-950 text-slate-100;
+    }
+
+    ::selection {
+        @apply bg-blue-500/20;
     }
 }
 
@@ -74,19 +58,105 @@
 input:focus[data-flux-control],
 textarea:focus[data-flux-control],
 select:focus[data-flux-control] {
-    @apply outline-hidden ring-2 ring-emerald-500 ring-offset-2 ring-offset-white;
+    @apply outline-none ring-2 ring-blue-500 ring-offset-0;
+}
+/* ── Sidebar flat style ── */
+
+.sidebar-unas [data-flux-sidebar-item][data-current],
+.sidebar-unas [data-flux-sidebar-item][data-flux-current],
+.sidebar-unas [data-flux-current] {
+    @apply !bg-blue-600 !text-white font-semibold;
+}
+/* Dark Mode Current/Active Item */
+.dark .sidebar-unas [data-flux-sidebar-item][data-current],
+.dark .sidebar-unas [data-flux-sidebar-item][data-flux-current],
+.dark .sidebar-unas [data-flux-current] {
+    @apply !bg-slate-800 !text-white font-semibold;
+}
+.sidebar-unas [data-flux-sidebar-group-heading] {
+    @apply !text-slate-400 text-xs uppercase tracking-wider;
+}
+.dark .sidebar-unas [data-flux-sidebar-group-heading] {
+    @apply !text-slate-500;
+}
+.sidebar-unas [data-flux-sidebar-header] {
+    @apply !border-slate-200;
+}
+.dark .sidebar-unas [data-flux-sidebar-header] {
+    @apply !border-slate-800;
+}
+.sidebar-unas [data-flux-sidebar-footer] {
+    @apply !border-slate-200;
+}
+.dark .sidebar-unas [data-flux-sidebar-footer] {
+    @apply !border-slate-800;
+}
+.sidebar-unas [data-flux-sidebar-brand] {
+    @apply !text-slate-900;
+}
+.dark .sidebar-unas [data-flux-sidebar-brand] {
+    @apply !text-white;
+}
+.sidebar-unas [data-flux-sidebar-brand] [data-flux-brand-name] {
+    @apply !text-slate-900;
+}
+.dark .sidebar-unas [data-flux-sidebar-brand] [data-flux-brand-name] {
+    @apply !text-white;
 }
 
-@layer base {
-    body {
-        @apply bg-zinc-50;
-    }
-
-    .dark body {
-        @apply bg-zinc-900;
-    }
-
-    ::selection {
-        @apply bg-emerald-500/30;
-    }
+/* ── Card flat style ── */
+.card-unas {
+    @apply rounded-lg border border-slate-200 bg-white;
 }
+.dark .card-unas {
+    @apply border-slate-800 bg-slate-900;
+}
+
+/* ── Table flat style ── */
+.table-unas {
+    @apply w-full text-sm;
+}
+.table-unas thead {
+    @apply bg-slate-100;
+}
+.dark .table-unas thead {
+    @apply bg-slate-800/50;
+}
+.table-unas thead th {
+    @apply px-3 py-2.5 sm:px-5 sm:py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600;
+}
+.dark .table-unas thead th {
+    @apply text-slate-400;
+}
+.table-unas tbody {
+    @apply divide-y divide-slate-200;
+}
+.dark .table-unas tbody {
+    @apply divide-slate-800;
+}
+.table-unas tbody tr {
+    @apply hover:bg-slate-100 transition-colors;
+}
+.dark .table-unas tbody tr {
+    @apply hover:bg-slate-800/50;
+}
+
+/* ── Status badges flat ── */
+.badge-aktif { @apply inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200; }
+.badge-pending { @apply inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200; }
+.badge-ditolak { @apply inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200; }
+.badge-dibatalkan { @apply inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold bg-slate-100 text-slate-500 border border-slate-200; }
+.dark .badge-aktif { @apply bg-emerald-950 text-emerald-400 border-emerald-800; }
+.dark .badge-pending { @apply bg-amber-950 text-amber-400 border-amber-800; }
+.dark .badge-ditolak { @apply bg-rose-950 text-rose-400 border-rose-800; }
+.dark .badge-dibatalkan { @apply bg-slate-800 text-slate-400 border-slate-700; }
+
+/* ── Alert messages flat ── */
+.alert-success { @apply rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700; }
+.alert-error { @apply rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700; }
+.dark .alert-success { @apply border-emerald-800 bg-emerald-950 text-emerald-400; }
+.dark .alert-error { @apply border-rose-800 bg-rose-950 text-rose-400; }
+
+/* ── Button variants flat ── */
+.btn-primary { @apply !bg-blue-600 !text-white hover:!bg-blue-700 cursor-pointer; }
+.btn-accent { @apply !bg-amber-500 !text-white hover:!bg-amber-600 cursor-pointer; }

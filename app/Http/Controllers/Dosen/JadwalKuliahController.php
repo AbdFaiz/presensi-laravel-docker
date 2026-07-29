@@ -12,7 +12,20 @@ class JadwalKuliahController extends Controller
     {
         $dosen = auth()->user()->dosenProfile;
         $kelasIds = $dosen->kelasKuliahs()->pluck('kelas_kuliahs.id');
-        $jadwals = JadwalKuliah::whereIn('kelas_kuliah_id', $kelasIds)->with('kelasKuliah.mataKuliah')->get();
+        $jadwals = JadwalKuliah::whereIn('kelas_kuliah_id', $kelasIds)
+            ->with('kelasKuliah.mataKuliah')
+            ->withCount('presensis')
+            ->get();
+
+        $mhsCounts = \App\Models\KrsDetail::where('status', 'aktif')
+            ->whereIn('kelas_kuliah_id', $kelasIds)
+            ->selectRaw('kelas_kuliah_id, count(*) as total')
+            ->groupBy('kelas_kuliah_id')
+            ->pluck('total', 'kelas_kuliah_id');
+
+        foreach ($jadwals as $j) {
+            $j->total_mahasiswa = $mhsCounts[$j->kelas_kuliah_id] ?? 0;
+        }
 
         return view('dosen.jadwal.index', compact('jadwals'));
     }
@@ -33,8 +46,9 @@ class JadwalKuliahController extends Controller
             'tgl_pertemuan' => 'required|date',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required|after:jam_mulai',
-            'status_sesi' => 'required|in:dibuka,ditutup',
         ]);
+
+        $validated['status_sesi'] = 'ditutup';
 
         JadwalKuliah::create($validated);
 

@@ -21,12 +21,16 @@ class PresensiController extends Controller
             ->with('kelasKuliah.mataKuliah')
             ->get();
 
+        $sudahPresensi = Presensi::where('mahasiswa_id', $mhs->id)
+            ->whereIn('jadwal_kuliah_id', $jadwalAktif->pluck('id'))
+            ->pluck('status', 'jadwal_kuliah_id');
+
         $riwayat = Presensi::where('mahasiswa_id', $mhs->id)
             ->with('jadwalKuliah.kelasKuliah.mataKuliah')
             ->latest()
             ->get();
 
-        return view('mahasiswa.presensi.index', compact('jadwalAktif', 'riwayat'));
+        return view('mahasiswa.presensi.index', compact('jadwalAktif', 'sudahPresensi', 'riwayat'));
     }
 
     public function submit(JadwalKuliah $jadwalKuliah)

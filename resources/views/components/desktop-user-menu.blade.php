@@ -12,11 +12,10 @@
                 :name="auth()->user()->name"
                 :initials="auth()->user()->initials()"
                 size="sm"
-                color="emerald"
             />
             <div class="grid flex-1 text-start text-sm leading-tight">
                 <flux:heading class="truncate font-medium">{{ auth()->user()->name }}</flux:heading>
-                <flux:text class="truncate text-xs text-zinc-500">{{ auth()->user()->email }}</flux:text>
+                <flux:text class="truncate text-xs text-slate-500">{{ auth()->user()->email }}</flux:text>
             </div>
         </div>
         <flux:menu.separator />
@@ -30,7 +29,7 @@
                     as="button"
                     type="submit"
                     icon="arrow-right-start-on-rectangle"
-                    class="w-full cursor-pointer text-red-500 hover:!text-red-600"
+                    class="w-full cursor-pointer text-rose-500 hover:!text-rose-600"
                     data-test="logout-button"
                 >
                     {{ __('Keluar') }}

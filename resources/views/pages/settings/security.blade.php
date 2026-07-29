@@ -121,7 +121,7 @@ new #[Title('Security settings')] class extends Component {
             />
 
             <div class="flex items-center gap-4">
-                <flux:button variant="primary" type="submit" data-test="update-password-button">
+                <flux:button variant="primary" type="submit" class="btn-primary" data-test="update-password-button">
                     {{ __('Save') }}
                 </flux:button>
             </div>
@@ -140,12 +140,13 @@ new #[Title('Security settings')] class extends Component {
                             </flux:text>
 
                             <div class="flex justify-start">
-                                <flux:button
-                                    variant="danger"
-                                    wire:click="disable"
-                                >
-                                    {{ __('Disable 2FA') }}
-                                </flux:button>
+                            <flux:button
+                                variant="danger"
+                                wire:click="disable"
+                                class="!bg-rose-600 !text-white hover:!bg-rose-700"
+                            >
+                                {{ __('Disable 2FA') }}
+                            </flux:button>
                             </div>
 
                             <livewire:pages::settings.two-factor.recovery-codes :$requiresConfirmation />
@@ -157,12 +158,13 @@ new #[Title('Security settings')] class extends Component {
                             </flux:text>
 
                             <flux:modal.trigger name="two-factor-setup-modal">
-                                <flux:button
-                                    variant="primary"
-                                    wire:click="$dispatch('start-two-factor-setup')"
-                                >
-                                    {{ __('Enable 2FA') }}
-                                </flux:button>
+                            <flux:button
+                                variant="primary"
+                                wire:click="$dispatch('start-two-factor-setup')"
+                                class="btn-primary"
+                            >
+                                {{ __('Enable 2FA') }}
+                            </flux:button>
                             </flux:modal.trigger>
 
                             <livewire:pages::settings.two-factor-setup-modal :requires-confirmation="$requiresConfirmation" />

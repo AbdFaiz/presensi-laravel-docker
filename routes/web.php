@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\MataKuliahController;
 use App\Http\Controllers\Admin\ProgramStudiController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Dosen\JadwalKuliahController as DosenJadwalController;
+use App\Http\Controllers\Dosen\PresensiController as DosenPresensiController;
 use App\Http\Controllers\Mahasiswa\KrsController;
 use App\Http\Controllers\Mahasiswa\PresensiController;
 use Illuminate\Support\Facades\Route;
@@ -64,10 +65,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('jadwal/create', [DosenJadwalController::class, 'create'])->name('jadwal.create');
         Route::post('jadwal', [DosenJadwalController::class, 'store'])->name('jadwal.store');
         Route::put('jadwal/{jadwalKuliah}/toggle', [DosenJadwalController::class, 'toggle'])->name('jadwal.toggle');
+
+        Route::get('presensi/{jadwalKuliah}', [DosenPresensiController::class, 'show'])->name('presensi.show');
+        Route::get('presensi/{jadwalKuliah}/export', [DosenPresensiController::class, 'export'])->name('presensi.export');
     });
 
     Route::prefix('mahasiswa')->middleware('mahasiswa')->name('mhs.')->group(function () {
         Route::get('krs', [KrsController::class, 'index'])->name('krs.index');
+        Route::get('krs/daftar', [KrsController::class, 'daftar'])->name('krs.daftar');
         Route::post('krs/{kelasKuliah}/ambil', [KrsController::class, 'ambil'])->name('krs.ambil');
         Route::post('krs/{krsDetail}/batal', [KrsController::class, 'batal'])->name('krs.batal');
 
