@@ -1,85 +1,83 @@
 <x-layouts::app :title="__('Presensi')">
-    <div class="flex h-full w-full flex-1 flex-col gap-6">
-        <flux:heading size="xl">Presensi</flux:heading>
+    <div class="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
+        <div>
+            <h1 class="text-2xl font-bold text-zinc-900 dark:text-white">Presensi</h1>
+            <p class="mt-1 text-sm text-zinc-500">Isi kehadiran perkuliahan</p>
+        </div>
 
         @if(session('success'))
-            <flux:callout icon="check-circle" color="green">{{ session('success') }}</flux:callout>
+            <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-400">{{ session('success') }}</div>
         @endif
         @if(session('error'))
-            <flux:callout icon="exclamation-circle" color="red">{{ session('error') }}</flux:callout>
+            <div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400">{{ session('error') }}</div>
         @endif
 
-        <div class="rounded-xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-zinc-800 p-4">
-            <flux:heading size="sm">Sesi Aktif - Isi Presensi</flux:heading>
-            <div class="mt-3 space-y-3">
+        <div class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+            <h2 class="text-base font-semibold text-zinc-900 dark:text-white">Sesi Aktif</h2>
+            <div class="mt-4 grid gap-3">
                 @forelse($jadwalAktif as $jadwal)
-                    <div class="flex items-center justify-between rounded-lg border border-neutral-100 p-4 dark:border-neutral-600">
-                        <div>
-                            <div class="font-bold">{{ $jadwal->kelasKuliah->mataKuliah->nama_mk ?? '-' }}</div>
-                            <div class="text-sm text-zinc-500">Pertemuan {{ $jadwal->pertemuan_ke }} | {{ $jadwal->tgl_pertemuan->format('d/m/Y') }} | {{ $jadwal->jam_mulai }} - {{ $jadwal->jam_selesai }}</div>
+                    <div class="group flex items-center justify-between rounded-xl border border-emerald-100 bg-emerald-50/50 p-4 dark:border-emerald-900/30 dark:bg-emerald-900/10">
+                        <div class="min-w-0 flex-1">
+                            <p class="font-semibold text-zinc-900 dark:text-white">{{ $jadwal->kelasKuliah->mataKuliah->nama_mk ?? '-' }}</p>
+                            <p class="mt-0.5 text-xs text-zinc-500">Pertemuan {{ $jadwal->pertemuan_ke }} · {{ $jadwal->tgl_pertemuan->format('d/m/Y') }} · {{ $jadwal->jam_mulai }} - {{ $jadwal->jam_selesai }}</p>
+                            <p class="text-xs text-zinc-400">{{ $jadwal->kelasKuliah->nama_kelas }}</p>
                         </div>
-                        <div class="flex gap-2">
-                            <form method="POST" action="{{ route('mhs.presensi.submit', $jadwal) }}">
+                        <div class="flex gap-2 shrink-0">
+                            <form method="POST" action="{{ route('mhs.presensi.submit', $jadwal) }}" class="inline">
                                 @csrf
                                 <input type="hidden" name="status" value="hadir" />
-                                <flux:button size="xs" variant="primary" icon="check" as="submit">Hadir</flux:button>
+                                <flux:button icon="check" size="sm" class="!bg-emerald-600 !text-white hover:!bg-emerald-700" as="submit">Hadir</flux:button>
                             </form>
-                            <form method="POST" action="{{ route('mhs.presensi.submit', $jadwal) }}">
+                            <form method="POST" action="{{ route('mhs.presensi.submit', $jadwal) }}" class="inline">
                                 @csrf
                                 <input type="hidden" name="status" value="izin" />
-                                <flux:button size="xs" variant="subtle" icon="document-text" as="submit">Izin</flux:button>
+                                <flux:button icon="document-text" size="sm" variant="subtle" as="submit">Izin</flux:button>
                             </form>
-                            <form method="POST" action="{{ route('mhs.presensi.submit', $jadwal) }}">
+                            <form method="POST" action="{{ route('mhs.presensi.submit', $jadwal) }}" class="inline">
                                 @csrf
                                 <input type="hidden" name="status" value="sakit" />
-                                <flux:button size="xs" variant="subtle" icon="heart" as="submit">Sakit</flux:button>
+                                <flux:button icon="heart" size="sm" variant="subtle" as="submit">Sakit</flux:button>
                             </form>
                         </div>
                     </div>
                 @empty
-                    <div class="text-center py-8 text-zinc-400">
-                        Tidak ada sesi presensi aktif saat ini
+                    <div class="py-10 text-center text-sm text-zinc-400">
+                        <flux:icon.inbox class="mx-auto size-8 text-zinc-300 dark:text-zinc-600" />
+                        <p class="mt-2">Tidak ada sesi presensi aktif saat ini</p>
                     </div>
                 @endforelse
             </div>
         </div>
 
-        <div class="rounded-xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-zinc-800 p-4">
-            <flux:heading size="sm">Riwayat Presensi</flux:heading>
-            <div class="mt-3 overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead class="border-b border-neutral-200 dark:border-neutral-700">
-                        <tr>
-                            <th class="px-4 py-3 font-medium">Mata Kuliah</th>
-                            <th class="px-4 py-3 font-medium">Pertemuan</th>
-                            <th class="px-4 py-3 font-medium">Tanggal</th>
-                            <th class="px-4 py-3 font-medium">Status</th>
-                            <th class="px-4 py-3 font-medium">Waktu Submit</th>
+        <div class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+            <h2 class="text-base font-semibold text-zinc-900 dark:text-white">Riwayat Presensi</h2>
+            <div class="mt-4 overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-100 dark:border-zinc-800">
+                            <th class="px-4 py-3 text-left font-medium text-zinc-500">Mata Kuliah</th>
+                            <th class="px-4 py-3 text-left font-medium text-zinc-500">Pertemuan</th>
+                            <th class="px-4 py-3 text-left font-medium text-zinc-500">Tanggal</th>
+                            <th class="px-4 py-3 text-center font-medium text-zinc-500">Status</th>
+                            <th class="px-4 py-3 text-right font-medium text-zinc-500">Waktu</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-neutral-100 dark:divide-neutral-700">
+                    <tbody class="divide-y divide-zinc-50 dark:divide-zinc-800">
                         @forelse($riwayat as $r)
                             <tr>
-                                <td class="px-4 py-3">{{ $r->jadwalKuliah->kelasKuliah->mataKuliah->nama_mk ?? '-' }}</td>
-                                <td class="px-4 py-3">Pertemuan {{ $r->jadwalKuliah->pertemuan_ke ?? '-' }}</td>
-                                <td class="px-4 py-3">{{ $r->jadwalKuliah->tgl_pertemuan?->format('d/m/Y') ?? '-' }}</td>
-                                <td class="px-4 py-3">
-                                    @if($r->status === 'hadir')
-                                        <flux:badge color="green">Hadir</flux:badge>
-                                    @elseif($r->status === 'izin')
-                                        <flux:badge color="yellow">Izin</flux:badge>
-                                    @elseif($r->status === 'sakit')
-                                        <flux:badge color="blue">Sakit</flux:badge>
-                                    @else
-                                        <flux:badge color="red">Alpha</flux:badge>
-                                    @endif
+                                <td class="px-4 py-3.5 font-medium text-zinc-900 dark:text-white">{{ $r->jadwalKuliah->kelasKuliah->mataKuliah->nama_mk ?? '-' }}</td>
+                                <td class="px-4 py-3.5 text-zinc-600">Pertemuan {{ $r->jadwalKuliah->pertemuan_ke ?? '-' }}</td>
+                                <td class="px-4 py-3.5 text-zinc-600">{{ $r->jadwalKuliah->tgl_pertemuan?->format('d/m/Y') ?? '-' }}</td>
+                                <td class="px-4 py-3.5 text-center">
+                                    @php
+                                        $sc2 = ['hadir' => 'bg-emerald-100 text-emerald-700', 'izin' => 'bg-amber-100 text-amber-700', 'sakit' => 'bg-blue-100 text-blue-700', 'alfa' => 'bg-red-100 text-red-700'];
+                                    @endphp
+                                    <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {{ $sc2[$r->status] ?? 'bg-zinc-100 text-zinc-600' }}">{{ ucfirst($r->status) }}</span>
                                 </td>
-                                <td class="px-4 py-3 text-zinc-500">{{ $r->waktu_presensi?->format('d/m/Y H:i') ?? '-' }}</td>
+                                <td class="px-4 py-3.5 text-right text-xs text-zinc-400 font-mono">{{ $r->waktu_presensi?->format('H:i d/m/Y') ?? '-' }}</td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="5" class="px-4 py-6 text-center text-zinc-400">Belum ada riwayat presensi</td>
-                            </tr>
+                            <tr><td colspan="5" class="px-4 py-8 text-center text-sm text-zinc-400">Belum ada riwayat presensi</td></tr>
                         @endforelse
                     </tbody>
                 </table>

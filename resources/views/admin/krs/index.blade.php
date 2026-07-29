@@ -1,63 +1,61 @@
 <x-layouts::app :title="__('KRS Management')">
-    <div class="flex h-full w-full flex-1 flex-col gap-6">
-        <flux:heading size="xl">KRS - Persetujuan Kelas</flux:heading>
+    <div class="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
+        <div>
+            <h1 class="text-2xl font-bold text-zinc-900 dark:text-white">KRS</h1>
+            <p class="mt-1 text-sm text-zinc-500">Persetujuan Kartu Rencana Studi mahasiswa</p>
+        </div>
 
         @if(session('success'))
-            <flux:callout icon="check-circle" color="green">{{ session('success') }}</flux:callout>
+            <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-400">{{ session('success') }}</div>
         @endif
 
-        <div class="rounded-xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-zinc-800">
+        <div class="rounded-2xl border border-zinc-200/60 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900 overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead class="border-b border-neutral-200 dark:border-neutral-700">
-                        <tr>
-                            <th class="px-4 py-3 font-medium">Mahasiswa</th>
-                            <th class="px-4 py-3 font-medium">NIM</th>
-                            <th class="px-4 py-3 font-medium">Kelas</th>
-                            <th class="px-4 py-3 font-medium">Mata Kuliah</th>
-                            <th class="px-4 py-3 font-medium">Status</th>
-                            <th class="px-4 py-3 font-medium">Aksi</th>
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-100 dark:border-zinc-800">
+                            <th class="px-5 py-4 text-left font-medium text-zinc-500">Mahasiswa</th>
+                            <th class="px-5 py-4 text-left font-medium text-zinc-500">NIM</th>
+                            <th class="px-5 py-4 text-left font-medium text-zinc-500">Kelas</th>
+                            <th class="px-5 py-4 text-left font-medium text-zinc-500">Mata Kuliah</th>
+                            <th class="px-5 py-4 text-center font-medium text-zinc-500">Status</th>
+                            <th class="px-5 py-4 text-right font-medium text-zinc-500">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-neutral-100 dark:divide-neutral-700">
+                    <tbody class="divide-y divide-zinc-50 dark:divide-zinc-800">
                         @forelse($krs as $item)
-                            <tr>
-                                <td class="px-4 py-3">{{ $item->mahasiswa->nama_lengkap ?? '-' }}</td>
-                                <td class="px-4 py-3 font-mono">{{ $item->mahasiswa->nim ?? '-' }}</td>
-                                <td class="px-4 py-3 font-bold">{{ $item->kelasKuliah->nama_kelas ?? '-' }}</td>
-                                <td class="px-4 py-3">{{ $item->kelasKuliah->mataKuliah->nama_mk ?? '-' }}</td>
-                                <td class="px-4 py-3">
-                                    @if($item->status === 'pending')
-                                        <flux:badge color="yellow">Pending</flux:badge>
-                                    @elseif($item->status === 'aktif')
-                                        <flux:badge color="green">Aktif</flux:badge>
-                                    @elseif($item->status === 'ditolak')
-                                        <flux:badge color="red">Ditolak</flux:badge>
-                                    @else
-                                        <flux:badge color="gray">Dibatalkan</flux:badge>
-                                    @endif
+                            <tr class="hover:bg-emerald-50/30 dark:hover:bg-emerald-900/5 transition-colors">
+                                <td class="px-5 py-4 font-medium text-zinc-900 dark:text-white">{{ $item->mahasiswa->nama_lengkap ?? '-' }}</td>
+                                <td class="px-5 py-4 font-mono text-sm text-zinc-600">{{ $item->mahasiswa->nim ?? '-' }}</td>
+                                <td class="px-5 py-4 font-medium">{{ $item->kelasKuliah->nama_kelas ?? '-' }}</td>
+                                <td class="px-5 py-4 text-zinc-600">{{ $item->kelasKuliah->mataKuliah->nama_mk ?? '-' }}</td>
+                                <td class="px-5 py-4 text-center">
+                                    @php
+                                        $statusColors = ['pending' => 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400', 'aktif' => 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400', 'ditolak' => 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400', 'dibatalkan' => 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'];
+                                    @endphp
+                                    <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium uppercase tracking-wider {{ $statusColors[$item->status] ?? 'bg-zinc-100 text-zinc-600' }}">
+                                        {{ $item->status }}
+                                    </span>
                                 </td>
-                                <td class="px-4 py-3">
+                                <td class="px-5 py-4 text-right">
                                     @if($item->status === 'pending')
-                                        <div class="flex gap-2">
-                                            <form method="POST" action="{{ route('admin.krs.approve', $item) }}">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <form method="POST" action="{{ route('admin.krs.approve', $item) }}" class="inline">
                                                 @csrf
-                                                <flux:button size="xs" variant="primary" icon="check" as="submit">Approve</flux:button>
+                                                <flux:button size="xs" class="!bg-emerald-600 !text-white hover:!bg-emerald-700" icon="check" as="submit">Approve</flux:button>
                                             </form>
-                                            <form method="POST" action="{{ route('admin.krs.reject', $item) }}">
+                                            <form method="POST" action="{{ route('admin.krs.reject', $item) }}" class="inline">
                                                 @csrf
-                                                <flux:button size="xs" variant="danger" icon="x-mark" as="submit">Reject</flux:button>
+                                                <flux:button size="xs" variant="subtle" icon="x-mark" type="submit" class="text-red-500 hover:!text-red-600 hover:!bg-red-50 dark:hover:!bg-red-900/20">Reject</flux:button>
                                             </form>
                                         </div>
                                     @else
-                                        <span class="text-zinc-400 text-xs">-</span>
+                                        <span class="text-xs text-zinc-400">&mdash;</span>
                                     @endif
                                 </td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="6" class="px-4 py-8 text-center text-zinc-400">Belum ada data KRS</td>
-                            </tr>
+                            <tr><td colspan="6" class="px-5 py-12 text-center text-sm text-zinc-400">Belum ada data KRS</td></tr>
                         @endforelse
                     </tbody>
                 </table>

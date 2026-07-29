@@ -42,7 +42,7 @@ class MataKuliahController extends Controller
     {
         $prodis = ProgramStudi::all();
 
-        return view('admin.mk.edit', ['mk' => $mataKuliah, 'prodis' => $prodis]);
+        return view('admin.mk.create', ['mk' => $mataKuliah, 'prodis' => $prodis]);
     }
 
     public function update(Request $request, MataKuliah $mataKuliah)

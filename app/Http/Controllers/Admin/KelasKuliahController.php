@@ -44,7 +44,7 @@ class KelasKuliahController extends Controller
         $matkuls = MataKuliah::all();
         $dosens = Dosen::all();
 
-        return view('admin.kelas.edit', ['kelas' => $kelasKuliah, 'matkuls' => $matkuls, 'dosens' => $dosens]);
+        return view('admin.kelas.create', ['kelas' => $kelasKuliah, 'matkuls' => $matkuls, 'dosens' => $dosens]);
     }
 
     public function update(Request $request, KelasKuliah $kelasKuliah)

@@ -6,21 +6,23 @@
         data-test="sidebar-menu-button"
     />
 
-    <flux:menu>
-        <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
+    <flux:menu class="min-w-[200px]">
+        <div class="flex items-center gap-3 px-2 py-2 text-start text-sm">
             <flux:avatar
                 :name="auth()->user()->name"
                 :initials="auth()->user()->initials()"
+                size="sm"
+                color="emerald"
             />
             <div class="grid flex-1 text-start text-sm leading-tight">
-                <flux:heading class="truncate">{{ auth()->user()->name }}</flux:heading>
-                <flux:text class="truncate">{{ auth()->user()->email }}</flux:text>
+                <flux:heading class="truncate font-medium">{{ auth()->user()->name }}</flux:heading>
+                <flux:text class="truncate text-xs text-zinc-500">{{ auth()->user()->email }}</flux:text>
             </div>
         </div>
         <flux:menu.separator />
         <flux:menu.radio.group>
             <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
-                {{ __('Settings') }}
+                {{ __('Pengaturan') }}
             </flux:menu.item>
             <form method="POST" action="{{ route('logout') }}" class="w-full">
                 @csrf
@@ -28,10 +30,10 @@
                     as="button"
                     type="submit"
                     icon="arrow-right-start-on-rectangle"
-                    class="w-full cursor-pointer"
+                    class="w-full cursor-pointer text-red-500 hover:!text-red-600"
                     data-test="logout-button"
                 >
-                    {{ __('Log out') }}
+                    {{ __('Keluar') }}
                 </flux:menu.item>
             </form>
         </flux:menu.radio.group>

@@ -35,7 +35,7 @@ class ProgramStudiController extends Controller
 
     public function edit(ProgramStudi $programStudi)
     {
-        return view('admin.prodi.edit', ['prodi' => $programStudi]);
+        return view('admin.prodi.create', ['prodi' => $programStudi]);
     }
 
     public function update(Request $request, ProgramStudi $programStudi)

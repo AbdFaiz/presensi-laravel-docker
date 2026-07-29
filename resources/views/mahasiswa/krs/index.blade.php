@@ -1,92 +1,86 @@
-<x-layouts::app :title="__('KRS Saya')">
-    <div class="flex h-full w-full flex-1 flex-col gap-6">
-        <flux:heading size="xl">KRS Saya</flux:heading>
+<x-layouts::app :title="__('KRS')">
+    <div class="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
+        <div>
+            <h1 class="text-2xl font-bold text-zinc-900 dark:text-white">Ambil Kelas (KRS)</h1>
+            <p class="mt-1 text-sm text-zinc-500">Daftar atau lihat status kelas Anda</p>
+        </div>
 
         @if(session('success'))
-            <flux:callout icon="check-circle" color="green">{{ session('success') }}</flux:callout>
+            <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-400">{{ session('success') }}</div>
         @endif
         @if(session('error'))
-            <flux:callout icon="exclamation-circle" color="red">{{ session('error') }}</flux:callout>
+            <div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400">{{ session('error') }}</div>
         @endif
 
-        <div class="rounded-xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-zinc-800 p-4">
-            <flux:heading size="sm">Kelas yang Saya Ambil</flux:heading>
-            <div class="mt-3 overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead class="border-b border-neutral-200 dark:border-neutral-700">
-                        <tr>
-                            <th class="px-4 py-3 font-medium">Kelas</th>
-                            <th class="px-4 py-3 font-medium">Mata Kuliah</th>
-                            <th class="px-4 py-3 font-medium">Dosen</th>
-                            <th class="px-4 py-3 font-medium">Status</th>
-                            <th class="px-4 py-3 font-medium">Aksi</th>
+        <div class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+            <h2 class="text-base font-semibold text-zinc-900 dark:text-white">Kelas yang Saya Ambil</h2>
+            <div class="mt-4 overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-100 dark:border-zinc-800">
+                            <th class="px-4 py-3 text-left font-medium text-zinc-500">Kelas</th>
+                            <th class="px-4 py-3 text-left font-medium text-zinc-500">Mata Kuliah</th>
+                            <th class="px-4 py-3 text-left font-medium text-zinc-500">Dosen</th>
+                            <th class="px-4 py-3 text-center font-medium text-zinc-500">Status</th>
+                            <th class="px-4 py-3 text-right font-medium text-zinc-500">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-neutral-100 dark:divide-neutral-700">
+                    <tbody class="divide-y divide-zinc-50 dark:divide-zinc-800">
                         @forelse($krsSaya as $krs)
                             <tr>
-                                <td class="px-4 py-3 font-bold">{{ $krs->kelasKuliah->nama_kelas ?? '-' }}</td>
-                                <td class="px-4 py-3">{{ $krs->kelasKuliah->mataKuliah->nama_mk ?? '-' }}</td>
-                                <td class="px-4 py-3">{{ $krs->kelasKuliah->dosen->nama_lengkap ?? '-' }}</td>
-                                <td class="px-4 py-3">
-                                    @if($krs->status === 'pending')
-                                        <flux:badge color="yellow">Pending</flux:badge>
-                                    @elseif($krs->status === 'aktif')
-                                        <flux:badge color="green">Aktif</flux:badge>
-                                    @elseif($krs->status === 'ditolak')
-                                        <flux:badge color="red">Ditolak</flux:badge>
-                                    @else
-                                        <flux:badge color="gray">Dibatalkan</flux:badge>
-                                    @endif
+                                <td class="px-4 py-3.5 font-bold text-zinc-900 dark:text-white">{{ $krs->kelasKuliah->nama_kelas ?? '-' }}</td>
+                                <td class="px-4 py-3.5">{{ $krs->kelasKuliah->mataKuliah->nama_mk ?? '-' }}</td>
+                                <td class="px-4 py-3.5 text-zinc-600">{{ $krs->kelasKuliah->dosen->nama_lengkap ?? '-' }}</td>
+                                <td class="px-4 py-3.5 text-center">
+                                    @php
+                                        $sc = ['pending' => 'bg-amber-100 text-amber-700', 'aktif' => 'bg-emerald-100 text-emerald-700', 'ditolak' => 'bg-red-100 text-red-700', 'dibatalkan' => 'bg-zinc-100 text-zinc-600'];
+                                    @endphp
+                                    <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {{ $sc[$krs->status] ?? 'bg-zinc-100 text-zinc-600' }}">{{ ucfirst($krs->status) }}</span>
                                 </td>
-                                <td class="px-4 py-3">
+                                <td class="px-4 py-3.5 text-right">
                                     @if($krs->status === 'pending')
-                                        <form method="POST" action="{{ route('mhs.krs.batal', $krs) }}">
+                                        <form method="POST" action="{{ route('mhs.krs.batal', $krs) }}" class="inline">
                                             @csrf
-                                            <flux:button size="xs" variant="danger" as="submit">Batal</flux:button>
+                                            <flux:button size="xs" variant="subtle" icon="x-mark" type="submit" class="text-red-500 hover:!text-red-600">Batal</flux:button>
                                         </form>
                                     @endif
                                 </td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="5" class="px-4 py-6 text-center text-zinc-400">Belum ada kelas yang diambil</td>
-                            </tr>
+                            <tr><td colspan="5" class="px-4 py-8 text-center text-sm text-zinc-400">Belum ada kelas yang diambil</td></tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <div class="rounded-xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-zinc-800 p-4">
-            <flux:heading size="sm">Kelas Tersedia</flux:heading>
-            <div class="mt-3 overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead class="border-b border-neutral-200 dark:border-neutral-700">
-                        <tr>
-                            <th class="px-4 py-3 font-medium">Kelas</th>
-                            <th class="px-4 py-3 font-medium">Mata Kuliah</th>
-                            <th class="px-4 py-3 font-medium">Dosen</th>
-                            <th class="px-4 py-3 font-medium">Aksi</th>
+        <div class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+            <h2 class="text-base font-semibold text-zinc-900 dark:text-white">Kelas Tersedia</h2>
+            <div class="mt-4 overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-zinc-100 dark:border-zinc-800">
+                            <th class="px-4 py-3 text-left font-medium text-zinc-500">Kelas</th>
+                            <th class="px-4 py-3 text-left font-medium text-zinc-500">Mata Kuliah</th>
+                            <th class="px-4 py-3 text-left font-medium text-zinc-500">Dosen</th>
+                            <th class="px-4 py-3 text-right font-medium text-zinc-500">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-neutral-100 dark:divide-neutral-700">
+                    <tbody class="divide-y divide-zinc-50 dark:divide-zinc-800">
                         @forelse($kelasTersedia as $kelas)
                             <tr>
-                                <td class="px-4 py-3 font-bold">{{ $kelas->nama_kelas }}</td>
-                                <td class="px-4 py-3">{{ $kelas->mataKuliah->nama_mk ?? '-' }}</td>
-                                <td class="px-4 py-3">{{ $kelas->dosen->nama_lengkap ?? '-' }}</td>
-                                <td class="px-4 py-3">
-                                    <form method="POST" action="{{ route('mhs.krs.ambil', $kelas) }}">
+                                <td class="px-4 py-3.5 font-bold text-zinc-900 dark:text-white">{{ $kelas->nama_kelas }}</td>
+                                <td class="px-4 py-3.5">{{ $kelas->mataKuliah->nama_mk ?? '-' }}</td>
+                                <td class="px-4 py-3.5 text-zinc-600">{{ $kelas->dosen->nama_lengkap ?? '-' }}</td>
+                                <td class="px-4 py-3.5 text-right">
+                                    <form method="POST" action="{{ route('mhs.krs.ambil', $kelas) }}" class="inline">
                                         @csrf
-                                        <flux:button size="xs" variant="primary" icon="plus" as="submit">Ambil Kelas</flux:button>
+                                        <flux:button size="xs" class="!bg-emerald-600 !text-white hover:!bg-emerald-700" icon="plus" as="submit">Ambil Kelas</flux:button>
                                     </form>
                                 </td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="4" class="px-4 py-6 text-center text-zinc-400">Tidak ada kelas tersedia</td>
-                            </tr>
+                            <tr><td colspan="4" class="px-4 py-8 text-center text-sm text-zinc-400">Tidak ada kelas tersedia</td></tr>
                         @endforelse
                     </tbody>
                 </table>
