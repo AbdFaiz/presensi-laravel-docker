@@ -48,15 +48,15 @@
 
                     <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
                         @auth
-                            <flux:button href="{{ route('dashboard') }}" size="lg" icon-trailing="arrow-right" class="!bg-emerald-600 !text-white hover:!bg-emerald-700 shadow-lg shadow-emerald-200/50 dark:shadow-emerald-900/30">
+                            <flux:button href="{{ route('dashboard') }}" size="base" icon-trailing="arrow-right" class="!bg-emerald-600 !text-white hover:!bg-emerald-700 shadow-lg shadow-emerald-200/50 dark:shadow-emerald-900/30">
                                 Buka Dashboard
                             </flux:button>
                         @else
-                            <flux:button href="{{ route('login') }}" size="lg" icon-trailing="arrow-right" class="!bg-emerald-600 !text-white hover:!bg-emerald-700 shadow-lg shadow-emerald-200/50 dark:shadow-emerald-900/30">
+                            <flux:button href="{{ route('login') }}" size="base" icon-trailing="arrow-right" class="!bg-emerald-600 !text-white hover:!bg-emerald-700 shadow-lg shadow-emerald-200/50 dark:shadow-emerald-900/30">
                                 Mulai Presensi
                             </flux:button>
                             @if (Route::has('register'))
-                                <flux:button href="{{ route('register') }}" size="lg" variant="subtle">
+                                <flux:button href="{{ route('register') }}" size="base" variant="subtle">
                                     Daftar Akun
                                 </flux:button>
                             @endif
