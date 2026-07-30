@@ -24,7 +24,7 @@ class DosenSeeder extends Seeder
             [
                 'name' => 'Siti Nurhaliza, S.Kom., M.Sc.',
                 'username' => 'dosen002',
-                'email' => 'siti.nurhaliza@university.ac.id',
+                'email' => 'dosen002@university.ac.id',
                 'nip' => '199003202015042002',
                 'gelar' => 'S.Kom., M.Sc.',
                 'no_hp' => '081234567891',
